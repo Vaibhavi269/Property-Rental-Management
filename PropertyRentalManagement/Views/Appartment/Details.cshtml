@@ -1,0 +1,59 @@
+﻿@model PropertyRentalManagement.Models.Appartment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Appartment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Building.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Building.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person1.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person1.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Person2.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Person2.FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Apt_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

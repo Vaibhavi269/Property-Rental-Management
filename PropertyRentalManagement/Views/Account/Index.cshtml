@@ -1,0 +1,108 @@
+﻿@model IEnumerable<PropertyRentalManagement.Models.Person>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="navbar-form navbar-left">
+    <div class="form-group">
+        <input type="text" placeholder="Enter a email" id="inptSearch" class="form-control" />
+    </div>
+    <input type="button" name="search" value="Search" id="search" class="btn btn-default" />
+</div>
+<table class="table" id="datatable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Password)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Password)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.P_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.P_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.P_id })
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts {
+    <script type="text/javascript">
+        $("#search").click(function (e) {
+            $.ajax({
+                type: "GET",
+                url: "/api/search?email=" + $('#inptSearch').val(),                
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    const tableData = appendTableData(result)
+                    $('#datatable tbody:last-child').append(tableData)
+                }
+            });
+            function appendTableData(data) {
+                $('#datatable').find("tr:gt(0)").remove();
+                var tableData = null
+                for (var i = 0; i < data.length; i++) {
+                    tableData += `<tr>
+                                        <td>${data[i].FirstName}</td>
+                                        <td>${data[i].LastName}</td>
+                                        <td>${data[i].Phone ? data[i].Phone : ''}</td>
+                                        <td>${data[i].Email}</td>
+                                        <td>${data[i].Role}</td>
+                                        <td>${data[i].User.Password}</td>
+                                        <td>
+                                           <a href="/account/Edit/${data[i].P_id}">Edit</a> |
+                                           <a href="/account/Details/${data[i].P_id}">Details</a> |
+                                           <a href="/account/Delete/${data[i].P_id}">Delete</a>
+                                        </td>
+                                    </tr>`
+                }
+                return tableData
+            }
+            
+        });
+    </script>
+}

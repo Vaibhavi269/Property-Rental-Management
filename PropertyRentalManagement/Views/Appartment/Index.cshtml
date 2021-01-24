@@ -1,0 +1,98 @@
+﻿@model IEnumerable<PropertyRentalManagement.Models.Appartment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Building.Description)
+        </th>
+        <th>
+            Manager
+            @*@Html.DisplayNameFor(model => model.Person.FirstName)*@
+        </th>
+        <th>
+            Owner
+            @*@Html.DisplayNameFor(model => model.Person1.FirstName)*@
+        </th>
+        <th>
+            Tenant
+            @*@Html.DisplayNameFor(model => model.Person2.FirstName)*@
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Building.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person1.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person2.FirstName)
+            </td>
+            <td>
+                @if (item.Tenant_id > 0)
+                {
+                    @Html.Label("Sold")
+                }
+                else
+                {
+                    @Html.Label("Available")
+                }
+            </td>
+            <td>
+                @if (User.Identity.IsAuthenticated && ViewBag.role == "Manager")
+                {
+                    @Html.ActionLink("Edit ", "Edit", new { id = item.Apt_id })
+                    @Html.Label("|")
+                    @Html.ActionLink(" Details ", "Details", new { id = item.Apt_id })
+                    @Html.Label("|")
+                    @Html.ActionLink(" Delete ", "Delete", new { id = item.Apt_id })
+                    @Html.Label("|")
+                    @Html.ActionLink(" Appointment ", "Create", "Appointment", new { id = item.Apt_id }, null)
+                    @Html.Label("|")
+                    @Html.ActionLink(" Message", "Create", "Message", new { id = item.Apt_id }, null)
+
+                }
+                @if (User.Identity.IsAuthenticated && ViewBag.role == "Tenant")
+                {
+                    @*@Html.ActionLink("Edit ", "Edit", new { id = item.Apt_id })
+                    @Html.Label("|")
+                    @Html.ActionLink(" Details ", "Details", new { id = item.Apt_id })
+                    @Html.Label("|")
+                    @Html.ActionLink(" Delete ", "Delete", new { id = item.Apt_id })
+                    @Html.Label("|")*@
+                    @Html.ActionLink(" Appointment ", "Create", "Appointment", new { id = item.Apt_id }, null)
+                    @Html.Label("|")
+                    @Html.ActionLink(" Message", "Create", "Message", new { id = item.Apt_id }, null)
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>
